@@ -1,2 +1,1 @@
-# Useful-scripts
-Useful scripts
+# Useful scripts from multiple programming languages
