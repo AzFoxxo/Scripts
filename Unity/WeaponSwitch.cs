@@ -10,7 +10,7 @@ using UnityEngine;
     * Anarchist License, MIT Licence, GNU GPL v3.0 Licence, or any later version.
 */
 
-public class FPS_WeaponSwitch : MonoBehaviour
+public class WeaponSwitch : MonoBehaviour
 {
     // List of weapons
     [SerializeField] List<GameObject> weapons = new List<GameObject>();
