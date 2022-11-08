@@ -1,11 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// https://github.com/AzFoxxo (2022 MIT)
+/*
+    * This script is used to switch between weapons.
+    * It is attached to the player.
+    * To add a new weapon, add it to the weapons list.
+    * To change the weapon, use the scroll wheel or the number keys.
+    * Code by Az Foxxo (https://github.com/AzFoxxo/Scripts)
+    * Anarchist License, MIT Licence, GNU GPL v3.0 Licence, or any later version.
+*/
+
 public class WeaponSwitch : MonoBehaviour
 {
-    // Weapons (new() will not work due to outdated C# version)
+    // List of weapons
     [SerializeField] List<GameObject> weapons = new List<GameObject>();
+
+    // Current weapon index
     byte currentWeaponIndex;
 
     // Activate the default weapon
@@ -18,21 +28,42 @@ public class WeaponSwitch : MonoBehaviour
     // Switch weapons when letter e is held
     private void Update()
     {
-        // Check for key down
-        if (Input.GetKeyDown(KeyCode.F)) SwitchWeapon();
+        // Switch weapons when mouse wheel is scrolled up
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f) SwitchWeapon(cycleIncrease: false);
+
+        // Switch weapons when mouse wheel is scrolled down
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f) SwitchWeapon(cycleIncrease: true);
     }
 
     // Switch the weapon
-    private void SwitchWeapon()
+    private void SwitchWeapon(bool cycleIncrease = true)
     {
         // Deactivate the current weapon
         weapons[currentWeaponIndex].SetActive(false);
 
-        // Activate the next weapon
-        currentWeaponIndex = ((byte)(currentWeaponIndex+1 != weapons.Count ? currentWeaponIndex+1 : 0));
+        // Switch to the next weapon
+        if (!cycleIncrease) currentWeaponIndex++;
+        else currentWeaponIndex--;
+
+        // Check if the index is out of bounds
+        if (currentWeaponIndex >= weapons.Count) currentWeaponIndex = 0;
+        if (currentWeaponIndex < 0) currentWeaponIndex = (byte)(weapons.Count - 1);
+
+        // Activate the new weapon
         weapons[currentWeaponIndex].SetActive(true);
     }
 
+    #region Helper utilities
     // Add weapon
     public void AddWeapon(GameObject weapon) => weapons.Add(weapon); 
+
+    // Remove weapon
+    public void RemoveWeapon(GameObject weapon) => weapons.Remove(weapon);
+
+    // Get the current weapon
+    public GameObject GetCurrentWeapon() => weapons[currentWeaponIndex];
+
+    // Get the current weapon index
+    public byte GetCurrentWeaponIndex() => currentWeaponIndex;
+    #endregion
 }
