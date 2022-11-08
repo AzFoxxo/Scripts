@@ -10,13 +10,19 @@ using UnityEngine;
     * Anarchist License, MIT Licence, GNU GPL v3.0 Licence, or any later version.
 */
 
-public class WeaponSwitch : MonoBehaviour
+public class FPS_WeaponSwitch : MonoBehaviour
 {
     // List of weapons
     [SerializeField] List<GameObject> weapons = new List<GameObject>();
 
     // Current weapon index
     byte currentWeaponIndex;
+
+    // Delay between weapon switch
+    [SerializeField] float switchDelay = 0.25f;
+
+    // Timer for weapon switch delay
+    float switchTimer = 0;
 
     // Activate the default weapon
     private void Awake() {
@@ -29,21 +35,29 @@ public class WeaponSwitch : MonoBehaviour
     private void Update()
     {
         // Switch weapons when mouse wheel is scrolled up
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f) SwitchWeapon(cycleIncrease: false);
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f) SwitchWeapon();
 
-        // Switch weapons when mouse wheel is scrolled down
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f) SwitchWeapon(cycleIncrease: true);
+        // Decrease switch timer
+        switchTimer -= Time.deltaTime;
+
+        // Clamp switch timer
+        if (switchTimer < 0) switchTimer = 0;
     }
 
     // Switch the weapon
-    private void SwitchWeapon(bool cycleIncrease = true)
+    private void SwitchWeapon()
     {
+        // If the switch delay timer is not finished, return
+        if (switchTimer > 0) return;
+
+        // Set the switch timer
+        switchTimer = switchDelay;
+
         // Deactivate the current weapon
         weapons[currentWeaponIndex].SetActive(false);
 
         // Switch to the next weapon
-        if (!cycleIncrease) currentWeaponIndex++;
-        else currentWeaponIndex--;
+        currentWeaponIndex++;
 
         // Check if the index is out of bounds
         if (currentWeaponIndex >= weapons.Count) currentWeaponIndex = 0;
