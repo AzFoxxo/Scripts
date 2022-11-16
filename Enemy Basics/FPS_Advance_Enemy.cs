@@ -10,26 +10,28 @@ public class FPS_Advance_Enemy : FPS_Enemy
 {
     [SerializeField] private GameObject bullet, firePoint;
 
-    [SerializeField] ParticleSystem muzzleFlash;
-
-    float time;
+    [SerializeField] private ParticleSystem muzzleFlash;
     
-    void Start() => time = Time.time + 5;
+    [SerializeField] private float delay;
+
+    float private time;
+    
+    void Start() => time = Time.time + delay;
 
     // Update is called once per frame
     new void Update()
     {
-        // Invoke the enemies update
+        // Invoke the enemy's update
         base.Update();
         
-        // Fire the gun every five secs
+        // Fire a bullet after the delay
         if (navMeshAgent.isActiveAndEnabled)
         {
-            if (time - Time.time <= 0) {
+            if (time - Time.time <= delay) {
                 FireGun();
 
                 // Add five secs
-                time += 5;
+                time += delay;
             }
         }
 
