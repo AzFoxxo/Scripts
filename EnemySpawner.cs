@@ -2,7 +2,7 @@
     * Basic enemy script with enemy spawning
     * Code by Az Foxxo (https://github.com/AzFoxxo/Scripts)
     * Anarchist License, MIT Licence, GNU GPL v3.0 Licence, or any later version.
-*
+*/
 
 using UnityEngine;
 
