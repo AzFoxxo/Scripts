@@ -14,7 +14,6 @@ public class FPS_Spawn : MonoBehaviour
     private ulong enemyCount = 0;
     private GameObject[] spawnLocations;
 
-
     // Find all spawn points present in the world
     private void Awake() => spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
